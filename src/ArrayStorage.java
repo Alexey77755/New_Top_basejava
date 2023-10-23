@@ -1,4 +1,3 @@
-import javax.swing.*;
 import java.util.Arrays;
 
 /**
@@ -51,7 +50,7 @@ public class ArrayStorage {
      * @return array, contains only Resumes in storage (without null)
      */
     Resume[] getAll() {
-        Arrays.copyOfRange(storage,0, size);
+      return   Arrays.copyOfRange(storage,0, size);
     }
 
     int size() {
