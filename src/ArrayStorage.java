@@ -19,7 +19,9 @@ public class ArrayStorage {
     }
 
     Resume get(String uuid) {
-        return Arrays.binarySearch(storage,0,size,Resume);
+        for (int i = 0; i < size; i++) {
+        if (storage[i].uuid == uuid) {
+            return storage[i]; }
     }
 
     void delete(String uuid) {
