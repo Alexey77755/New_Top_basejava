@@ -1,3 +1,4 @@
+import javax.swing.*;
 import java.util.Arrays;
 
 /**
@@ -10,6 +11,7 @@ public class ArrayStorage {
 
     void clear() {
         Arrays.fill(storage, null);
+        size = 0;
     }
 
     void save(Resume r) {
@@ -20,11 +22,28 @@ public class ArrayStorage {
 
     Resume get(String uuid) {
         for (int i = 0; i < size; i++) {
-        if (storage[i].uuid == uuid) {
-            return storage[i]; }
+            if (storage[i].uuid == uuid) {
+                return storage[i];
+            }
+        }
     }
 
     void delete(String uuid) {
+        int n = 0;
+
+        for (int i = 0; i < size; i++) {
+            if (storage[i].uuid == uuid) {
+                n = i;
+
+            }
+            if (n != 0) {
+                System.arraycopy(storage, n + 1, storage, n, storage.length - 1);
+                storage[size] = null;
+                size = size - 1;
+
+            }
+        }
+
     }
 
     /**
