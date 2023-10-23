@@ -1,17 +1,25 @@
+import java.util.Arrays;
+
 /**
  * Array based storage for Resumes
  */
+
 public class ArrayStorage {
     Resume[] storage = new Resume[10000];
+    int size;
 
     void clear() {
+        Arrays.fill(storage, null);
     }
 
     void save(Resume r) {
+        size = size + 1;
+        storage[size] = r;
+
     }
 
     Resume get(String uuid) {
-        return null;
+        return Arrays.binarySearch(storage,0,size,Resume);
     }
 
     void delete(String uuid) {
@@ -25,6 +33,6 @@ public class ArrayStorage {
     }
 
     int size() {
-        return 0;
+        return size;
     }
 }
