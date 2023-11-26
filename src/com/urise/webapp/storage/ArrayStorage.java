@@ -18,46 +18,47 @@ public class ArrayStorage {
     }
 
     public void update(Resume r) {
-        if (exist_Resume(r) != -1) {
-            storage[exist_Resume(r)] = r;
+        int index = getIndex(r.getUuid());
+        if (index == -1) {
+            System.out.println("Resume "  + r.getUuid() + " not exist");
+
         } else {
-            System.out.println("Resume is not exist");
+            storage[index] = r;
         }
     }
 
     public void save(Resume r) {
-        if (size < storage.length) {
-            if (exist_Resume(r) == -1) {
-                storage[size] = r;
-                size = size + 1;
-            } else {
-                System.out.println("Resume is exist");
-            }
+        if (getIndex(r.getUuid()) != -1) {
+            System.out.println("Resume " + r.getUuid() + " already exist");
+
+        } else if (size == storage.length) {
+            System.out.println("Storage overflow");
+
         } else {
-            System.out.println("array overflow");
+            storage[size] = r;
+            size++;
         }
     }
 
     public Resume get(String uuid) {
-        Resume r = new Resume();
-        r.setUuid(uuid);
-        if (exist_Resume(r) != -1) {
-            return storage[exist_Resume(r)];
-        } else {
-            System.out.println("Resume is not exist");
+
+        int index = getIndex(uuid);
+        if (index == -1) {
+            System.out.println("Resume " + uuid + " not exist");
+            return null;
         }
-        return null;
+        return storage[index];
     }
 
     public void delete(String uuid) {
-        Resume r = new Resume();
-        r.setUuid(uuid);
-        if (exist_Resume(r) != -1) {
-                    storage[exist_Resume(r)] = storage[size - 1];
-                    storage[size - 1] = null;
-                    size--;
+        int index = getIndex(uuid);
+        if (index == -1) {
+            System.out.println("Resume " + uuid + " not exist");
+
         } else {
-            System.out.println("Resume is not exist");
+            storage[index] = storage[size - 1];
+            storage[size - 1] = null;
+            size--;
         }
     }
 
@@ -72,15 +73,14 @@ public class ArrayStorage {
         return size;
     }
 
-    private int exist_Resume(Resume r) {
-        if (size () !=0)  {
+    private int getIndex(String uuid) {
+        if (size() != 0) {
             for (int i = 0; i < size; i++) {
-                if (storage[i].getUuid() == r.getUuid()) {
+                if (storage[i].getUuid() == uuid) {
                     return i;
                 }
             }
         }
-
         return -1;
     }
 
