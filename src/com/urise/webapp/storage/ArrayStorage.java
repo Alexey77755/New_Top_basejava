@@ -36,16 +36,21 @@ public class ArrayStorage {
     }
 
     public Resume get(String uuid) {
-        for (int i = 0; i < size; i++) {
-            if (storage[i].getUuid() == uuid) {
-                return storage[i];
-            }
+        Resume r = new Resume();
+        r.setUuid(uuid);
+        if (exist_Resume(r) != 0) {
+                    return storage[exist_Resume(r)];
         }
+       else {
+                System.out.println("Resume is not exist");
+       }
         return null;
     }
 
     public void delete(String uuid) {
-        if (exist_Resume(new Resume().setUuid(uuid)) != 0) {
+       Resume r = new Resume();
+       r.setUuid(uuid);
+        if (exist_Resume(r) != 0) {
             for (int i = 0; i < size; i++) {
                 if (storage[i].getUuid() == uuid) {
                     /* System.arraycopy(storage, i + 1, storage, i, storage.length - 1);*/
