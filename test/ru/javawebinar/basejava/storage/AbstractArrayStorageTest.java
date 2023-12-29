@@ -47,7 +47,9 @@ public abstract class  AbstractArrayStorageTest {
 
     @org.junit.jupiter.api.Test
     void getAll() {
+        Resume [] array = storage.getAll();
         Assertions.assertEquals(3, storage.getAll().length);
+        Assertions.assertEquals(new Resume(UUID_1), array[0]);
         storage=null;
         Assertions.assertThrows(NullPointerException.class,() -> { storage.getAll();});
     }
@@ -56,9 +58,14 @@ public abstract class  AbstractArrayStorageTest {
     void save() {
         storage.save(new Resume("uuid4"));
         Assertions.assertEquals(4,storage.size() );
+        Assertions.assertEquals(new Resume("uuid4"),storage.get("uuid4") );
         Assertions.assertThrows(ExistStorageException.class,() -> { storage.save(new Resume("uuid1"));});
-        for (int i = 5; i <= 10000; i++) {
-            storage.save(new Resume("uuid" + i));
+        try {
+            for (int i = 5; i <= AbstractArrayStorage.STORAGE_LIMIT; i++) {
+                storage.save(new Resume("uuid" + i));
+            }
+        } catch (StorageException e) {
+            Assertions.fail();
         }
         Assertions.assertThrows(StorageException.class,() -> { storage.save(new Resume("uuid10001"));});
     }
