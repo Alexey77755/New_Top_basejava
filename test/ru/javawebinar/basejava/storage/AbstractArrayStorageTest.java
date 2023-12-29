@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import ru.javawebinar.basejava.exception.ExistStorageException;
 import ru.javawebinar.basejava.exception.NotExistStorageException;
+import ru.javawebinar.basejava.exception.StorageException;
 import ru.javawebinar.basejava.model.Resume;
 
 public abstract class  AbstractArrayStorageTest {
@@ -53,17 +54,27 @@ public abstract class  AbstractArrayStorageTest {
 
     @org.junit.jupiter.api.Test
     void save() {
-
+        storage.save(new Resume("uuid4"));
+        Assertions.assertEquals(4,storage.size() );
         Assertions.assertThrows(ExistStorageException.class,() -> { storage.save(new Resume("uuid1"));});
-
+        for (int i = 5; i <= 10000; i++) {
+            storage.save(new Resume("uuid" + i));
+        }
+        Assertions.assertThrows(StorageException.class,() -> { storage.save(new Resume("uuid10001"));});
     }
 
     @org.junit.jupiter.api.Test
     void delete() {
+        storage.delete("uuid3");
+        Assertions.assertEquals(2,storage.size() );
+        Assertions.assertThrows(NotExistStorageException.class,() -> { storage.delete("uuid9");});
+
     }
 
     @org.junit.jupiter.api.Test
     void get() {
+        Assertions.assertThrows(NotExistStorageException.class,() -> { storage.get("uuid9");});
+        Assertions.assertEquals(new Resume("uuid1"),storage.get("uuid1") );
     }
     @org.junit.jupiter.api.Test
     void getNotExist() {
