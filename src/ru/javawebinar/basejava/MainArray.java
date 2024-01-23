@@ -14,7 +14,7 @@ import java.io.InputStreamReader;
 public class MainArray {
     private final static ArrayStorage ARRAY_STORAGE = new ArrayStorage();
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, CloneNotSupportedException {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         Resume r;
         while (true) {
@@ -72,4 +72,5 @@ public class MainArray {
         }
         System.out.println("----------------------------");
     }
+
 }

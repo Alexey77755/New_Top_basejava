@@ -1,28 +1,49 @@
 package ru.javawebinar.basejava;
 
-import  ru.javawebinar.basejava.model.Resume;
-import  ru.javawebinar.basejava.storage.ArrayStorage;
-import  ru.javawebinar.basejava.storage.Storage;
+import ru.javawebinar.basejava.model.Resume;
+import ru.javawebinar.basejava.storage.ListStorage;
+import ru.javawebinar.basejava.storage.Storage;
 
 /**
  * Test for your com.urise.webapp.storage.ArrayStorage implementation
  */
 public class MainTestArrayStorage {
-  private   static final Storage ARRAY_STORAGE = new ArrayStorage();
+  private   static final Storage ARRAY_STORAGE = new ListStorage();
 
     public static void main(String[] args) {
-        final  Resume r1 = new Resume("uuid1");
+        final  Resume r1;
+        try {
+            r1 = new Resume("uuid1");
+        } catch (CloneNotSupportedException e) {
+            throw new RuntimeException(e);
+        }
 
-        final  Resume r2 = new Resume("uuid2");
+        final  Resume r2;
+        try {
+            r2 = new Resume("uuid2");
+        } catch (CloneNotSupportedException e) {
+            throw new RuntimeException(e);
+        }
 
-        final  Resume r3 = new Resume("uuid3");
+        final  Resume r3;
+        try {
+            r3 = new Resume("uuid3");
+        } catch (CloneNotSupportedException e) {
+            throw new RuntimeException(e);
+        }
 
-        final   Resume r5 = new Resume("uuid5");
+        final   Resume r5;
+        try {
+            r5 = new Resume("uuid5");
+        } catch (CloneNotSupportedException e) {
+            throw new RuntimeException(e);
+        }
 
 
         ARRAY_STORAGE.save(r1);
         ARRAY_STORAGE.save(r2);
         ARRAY_STORAGE.save(r3);
+        ARRAY_STORAGE.save(r5);
 
         ARRAY_STORAGE.update(r5);
         System.out.println("uuid5: " + ARRAY_STORAGE.get("uuid5"));
@@ -30,7 +51,7 @@ public class MainTestArrayStorage {
         System.out.println("Get r1: " + ARRAY_STORAGE.get(r1.getUuid()));
         System.out.println("Size: " + ARRAY_STORAGE.size());
 
-        System.out.println("Get dummy: " + ARRAY_STORAGE.get("dummy"));
+       // System.out.println("Get dummy: " + ARRAY_STORAGE.get("dummy"));
 
         printAll();
         ARRAY_STORAGE.delete(r1.getUuid());
