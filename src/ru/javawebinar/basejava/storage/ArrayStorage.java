@@ -20,7 +20,7 @@ public class ArrayStorage extends AbstractArrayStorage {
         return -1;
     }
     @Override
-    protected void fillDeletedElement(int index) {
+    protected void fillDeletedElement(int index, String uuid) {
 
         storage[index] = storage[size - 1];
     }

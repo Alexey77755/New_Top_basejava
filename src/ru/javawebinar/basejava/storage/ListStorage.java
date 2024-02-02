@@ -4,7 +4,7 @@ import ru.javawebinar.basejava.model.Resume;
 
 import java.util.ArrayList;
 
-public class ListStorage extends AbstractStorage {
+public class ListStorage extends AbstractStorage  {
     ArrayList<Resume> arr = new ArrayList<Resume>();
 
     @Override
@@ -20,7 +20,7 @@ public class ListStorage extends AbstractStorage {
     }
 
     @Override
-    protected Resume getResume(int index) {
+    protected Resume getResume(int index,String uuid) {
         return arr.get(index);
     }
 
@@ -35,13 +35,10 @@ public class ListStorage extends AbstractStorage {
         return arr.size();
     }
 
-    public int getIndex(String uuid) {
+    public int getIndex(String uuid) throws CloneNotSupportedException {
 
-        try {
             return arr.indexOf(new Resume(uuid));
-        } catch (Exception e) {
-            return -1;
-        }
+
 
     }
 
@@ -58,7 +55,7 @@ public class ListStorage extends AbstractStorage {
     }
 
     @Override
-    protected void fillDeletedElement(int index) {
+    protected void fillDeletedElement(int index, String uuid) {
         arr.remove(index);
     }
 

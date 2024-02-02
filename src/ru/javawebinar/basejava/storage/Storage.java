@@ -11,13 +11,13 @@ public interface Storage {
 
      void clear();
 
-     void update(Resume r) ;
+     void update(Resume r) throws CloneNotSupportedException;
 
-     void save(Resume r);
+     void save(Resume r) throws CloneNotSupportedException;
 
-     Resume get(String uuid);
+     Resume get(String uuid) throws CloneNotSupportedException;
 
-     void delete(String uuid);
+     void delete(String uuid) throws CloneNotSupportedException;
 
     /**
      * @return array, contains only Resumes in storage (without null)

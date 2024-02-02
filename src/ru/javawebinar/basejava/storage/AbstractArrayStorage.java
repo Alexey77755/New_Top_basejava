@@ -41,7 +41,7 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
         storage[size - 1] = null;
         size--;
     }
-    public Resume getResume(int index){
+    public Resume getResume(int index,String uuid){
        return storage[index];
     }
 

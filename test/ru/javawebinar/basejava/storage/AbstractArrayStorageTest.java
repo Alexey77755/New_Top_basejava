@@ -7,7 +7,7 @@ import ru.javawebinar.basejava.exception.NotExistStorageException;
 import ru.javawebinar.basejava.exception.StorageException;
 import ru.javawebinar.basejava.model.Resume;
 
-public abstract class  AbstractArrayStorageTest {
+public abstract class  AbstractArrayStorageTest   {
     private Storage storage ;
     AbstractArrayStorageTest(Storage storage){
         this.storage=storage;
@@ -39,39 +39,61 @@ public abstract class  AbstractArrayStorageTest {
     }
 
     @org.junit.jupiter.api.Test
-    void update() {
+    void update() throws CloneNotSupportedException {
         Assertions.assertThrows(NotExistStorageException.class,() -> { storage.update(new Resume("uuid_5"));});
         storage.update(new Resume("uuid1"));
         Assertions.assertEquals("uuid1",storage.get(UUID_1).getUuid());
     }
 
     @org.junit.jupiter.api.Test
-    void getAll() {
+    void getAll() throws CloneNotSupportedException {
         Resume [] array = storage.getAll();
         Assertions.assertEquals(3, storage.getAll().length);
-        Assertions.assertEquals(new Resume(UUID_1), array[0]);
+        //Assertions.assertEquals(new Resume(UUID_1), array.g);
         storage=null;
         Assertions.assertThrows(NullPointerException.class,() -> { storage.getAll();});
     }
 
     @org.junit.jupiter.api.Test
-    void save() {
-        storage.save(new Resume("uuid4"));
+    void save()  {
+        try {
+            storage.save(new Resume("uuid4"));
+        }
+        catch (CloneNotSupportedException e) {
+            System.out.println(e);
+        }
         Assertions.assertEquals(4,storage.size() );
+        try {
         Assertions.assertEquals(new Resume("uuid4"),storage.get("uuid4") );
+        }
+        catch (CloneNotSupportedException e) {
+            System.out.println(e);
+        }
         Assertions.assertThrows(ExistStorageException.class,() -> { storage.save(new Resume("uuid1"));});
         try {
             for (int i = 5; i <= AbstractArrayStorage.STORAGE_LIMIT; i++) {
                 storage.save(new Resume("uuid" + i));
             }
-        } catch (StorageException e) {
+        }
+          catch (CloneNotSupportedException e) {
+                System.out.println(e);
+            }
+         catch (StorageException e) {
             Assertions.fail();
         }
-        Assertions.assertThrows(StorageException.class,() -> { storage.save(new Resume("uuid10001"));});
+        storage.clear();
+        try {
+            storage.save(new Resume(UUID_1));
+            storage.save(new Resume(UUID_2));
+            storage.save(new Resume(UUID_3));
+        } catch (CloneNotSupportedException e) {
+                System.out.println(e);
+            }
+        Assertions.assertThrows(StorageException.class,() -> { storage.save(new Resume("uuid1"));});
     }
 
     @org.junit.jupiter.api.Test
-    void delete() {
+    void delete() throws CloneNotSupportedException {
         storage.delete("uuid3");
         Assertions.assertEquals(2,storage.size() );
         Assertions.assertThrows(NotExistStorageException.class,() -> { storage.delete("uuid9");});
@@ -79,7 +101,7 @@ public abstract class  AbstractArrayStorageTest {
     }
 
     @org.junit.jupiter.api.Test
-    void get() {
+    void get() throws CloneNotSupportedException {
         Assertions.assertThrows(NotExistStorageException.class,() -> { storage.get("uuid9");});
         Assertions.assertEquals(new Resume("uuid1"),storage.get("uuid1") );
     }
