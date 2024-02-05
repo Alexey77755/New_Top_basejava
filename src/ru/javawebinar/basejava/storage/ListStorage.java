@@ -3,71 +3,60 @@ package ru.javawebinar.basejava.storage;
 import ru.javawebinar.basejava.model.Resume;
 
 import java.util.ArrayList;
+import java.util.List;
 
-public class ListStorage extends AbstractStorage  {
-    ArrayList<Resume> arr = new ArrayList<Resume>();
+public class ListStorage extends AbstractStorage {
+    private List<Resume> list = new ArrayList<>();
+
+
+    @Override
+    protected Integer getSearchKey(String uuid) {
+        for (int i = 0; i < list.size(); i++) {
+            if (list.get(i).getUuid().equals(uuid)) {
+                return i;
+            }
+        }
+        return null;
+    }
+
+    @Override
+    protected boolean isExist(Object searchKey) {
+        return searchKey != null;
+    }
+
+    @Override
+    protected void doSave(Resume r, Object searchKey) {
+        list.add( r);
+    }
+
+    @Override
+    protected void doUpdate(Resume r, Object searchKey) {
+        list.set((Integer) searchKey, r);
+    }
+
+
+    @Override
+    protected void doDelete(Object searchKey) {
+        list.remove(((Integer) searchKey).intValue());
+    }
+
+    @Override
+    protected Resume doGet(Object searchKey) {
+        return list.get((Integer) searchKey);
+    }
 
     @Override
     public void clear() {
-        arr.clear();
+        list.clear();
     }
 
     @Override
     public Resume[] getAll() {
-        Resume[] array = new Resume[arr.size()];
-        return arr.toArray(array);
-
+        return list.toArray(new Resume[list.size()]);
     }
-
-    @Override
-    protected Resume getResume(int index,String uuid) {
-        return arr.get(index);
-    }
-
-    @Override
-    protected void updateElement(int index, Resume r) {
-        arr.set(index, r);
-    }
-
 
     @Override
     public int size() {
-        return arr.size();
+        return list.size();
     }
-
-    public int getIndex(String uuid) throws CloneNotSupportedException {
-
-            return arr.indexOf(new Resume(uuid));
-
-
-    }
-
-    @Override
-    protected void insertElement(int index, Resume r) {
-        arr.add(index, r);
-    }
-
-
-
-    @Override
-    protected boolean checkSize() {
-        return false;
-    }
-
-    @Override
-    protected void fillDeletedElement(int index, String uuid) {
-        arr.remove(index);
-    }
-
-    @Override
-    protected void increaseSize() {
-
-    }
-
-    @Override
-    protected void reduceSize() {
-
-    }
-
-
 }

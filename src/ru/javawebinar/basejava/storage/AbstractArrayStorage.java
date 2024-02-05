@@ -1,5 +1,6 @@
 package ru.javawebinar.basejava.storage;
 
+import ru.javawebinar.basejava.exception.StorageException;
 import ru.javawebinar.basejava.model.Resume;
 
 import java.util.Arrays;
@@ -19,38 +20,53 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
         Arrays.fill(storage, 0, size, null);
         size = 0;
     }
+
+    @Override
+    protected void doSave(Resume r, Object index) {
+        if (size==STORAGE_LIMIT) {
+            throw new StorageException("Storage overflow", r.getUuid());
+        }
+        else {
+            insertElement( r,(Integer)index);
+            size++;
+        }
+    }
+
+    @Override
+    protected void doDelete(Object index) {
+        fillDeletedElement((Integer)index);
+        storage[size-1]=null;
+        size--;
+    }
+
+    @Override
+    protected Resume doGet(Object index) {
+        return storage[(Integer)index];
+    }
+
+    @Override
+    protected  void doUpdate(Resume r, Object index) {
+        storage[(Integer)index]=r;
+    }
+
     @Override
     public Resume[] getAll() {
         return Arrays.copyOfRange(storage, 0, size);
     }
 
-
     @Override
-    public boolean  checkSize(){
-       if (size== STORAGE_LIMIT) {
-           return true;
-       }
-       return false;
-    }
-    @Override
-    public void increaseSize(){
-       size++;
-    }
-    @Override
-    public void  reduceSize(){
-        storage[size - 1] = null;
-        size--;
-    }
-    public Resume getResume(int index,String uuid){
-       return storage[index];
+    protected boolean isExist(Object index) {
+        return (Integer)index>=0;
     }
 
     @Override
-    protected void updateElement(int index, Resume r) {
-        storage[index]=r;
-    }
+    protected abstract Integer getSearchKey(String uuid) ;
+
+    protected abstract void fillDeletedElement(int index);
+    protected abstract void insertElement( Resume r,int index);
 
 
-    //protected abstract void insertElement(Resume r, int index);
+
+
 
 }

@@ -1,11 +1,12 @@
 package ru.javawebinar.basejava.storage;
 
-public class ListStorageTest extends AbstractArrayStorageTest {
-    ListStorageTest() {
+public class ListStorageTest extends AbstractStorageTest {
+   public ListStorageTest() {
+
         super(new ListStorage());
     }
 }
-    // ArrayList<Resume> arr = new ArrayList<Resume>();
+
 
 
 

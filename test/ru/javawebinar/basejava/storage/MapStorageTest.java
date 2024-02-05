@@ -1,6 +1,6 @@
 package ru.javawebinar.basejava.storage;
 
-public class MapStorageTest extends AbstractArrayStorageTest {
+public class MapStorageTest extends AbstractStorageTest {
     MapStorageTest() {
         super(new MapStorage());
     }

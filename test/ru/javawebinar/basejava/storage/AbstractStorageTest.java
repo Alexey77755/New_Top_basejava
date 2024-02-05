@@ -7,9 +7,9 @@ import ru.javawebinar.basejava.exception.NotExistStorageException;
 import ru.javawebinar.basejava.exception.StorageException;
 import ru.javawebinar.basejava.model.Resume;
 
-public abstract class  AbstractArrayStorageTest   {
+public abstract class  AbstractStorageTest   {
     private Storage storage ;
-    AbstractArrayStorageTest(Storage storage){
+    AbstractStorageTest(Storage storage){
         this.storage=storage;
     }
 
@@ -56,39 +56,28 @@ public abstract class  AbstractArrayStorageTest   {
 
     @org.junit.jupiter.api.Test
     void save()  {
-        try {
+
             storage.save(new Resume("uuid4"));
-        }
-        catch (CloneNotSupportedException e) {
-            System.out.println(e);
-        }
+
         Assertions.assertEquals(4,storage.size() );
-        try {
+
         Assertions.assertEquals(new Resume("uuid4"),storage.get("uuid4") );
-        }
-        catch (CloneNotSupportedException e) {
-            System.out.println(e);
-        }
+
         Assertions.assertThrows(ExistStorageException.class,() -> { storage.save(new Resume("uuid1"));});
         try {
             for (int i = 5; i <= AbstractArrayStorage.STORAGE_LIMIT; i++) {
                 storage.save(new Resume("uuid" + i));
             }
         }
-          catch (CloneNotSupportedException e) {
-                System.out.println(e);
-            }
          catch (StorageException e) {
             Assertions.fail();
         }
         storage.clear();
-        try {
+
             storage.save(new Resume(UUID_1));
             storage.save(new Resume(UUID_2));
             storage.save(new Resume(UUID_3));
-        } catch (CloneNotSupportedException e) {
-                System.out.println(e);
-            }
+
         Assertions.assertThrows(StorageException.class,() -> { storage.save(new Resume("uuid1"));});
     }
 

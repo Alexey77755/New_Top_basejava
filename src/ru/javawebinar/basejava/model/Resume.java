@@ -11,10 +11,10 @@ public class Resume implements Comparable<Resume> {
   private final  String uuid;
 
 
-    public Resume() throws CloneNotSupportedException {
+    public Resume()  {
         this(UUID.randomUUID().toString());
     }
-    public Resume(String uuid)  throws CloneNotSupportedException {
+    public Resume(String uuid)  {
         this.uuid = uuid;
     }
 

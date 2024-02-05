@@ -2,73 +2,62 @@ package ru.javawebinar.basejava.storage;
 
 import ru.javawebinar.basejava.exception.ExistStorageException;
 import ru.javawebinar.basejava.exception.NotExistStorageException;
-import ru.javawebinar.basejava.exception.StorageException;
 import ru.javawebinar.basejava.model.Resume;
 
 public abstract class AbstractStorage implements Storage {
+    protected abstract Object getSearchKey(String uuid);
+    protected abstract void doSave(Resume r, Object searchKey);
+
+    protected abstract void doUpdate(Resume r, Object searchKey);
+
+    protected abstract boolean isExist(Object searchKey);
+
+    protected abstract void doDelete(Object searchKey);
+
+
+    protected abstract Resume doGet(Object searchKey);
 
     @Override
-    public void update(Resume r) throws CloneNotSupportedException {
-        int index = getIndex(r.getUuid());
-        if (index < 0) {
-            throw new NotExistStorageException(r.getUuid());
+    public void update(Resume r) {
+        Object searchKey = getExistedSearchKey(r.getUuid());
+        doUpdate(r, searchKey);
 
-        } else {
-            updateElement(index, r);
-        }
+    }
+
+    public void save(Resume r) {
+        Object searchKey = getNotExistedSearchKey(r.getUuid());
+        doSave(r, searchKey);
+    }
+
+
+    @Override
+    public void delete(String uuid)  {
+        Object searchKey = getExistedSearchKey(uuid);
+        doDelete(searchKey);
+    }
+
+    @Override
+     public Resume get(String uuid)  {
+        Object searchKey = getExistedSearchKey(uuid);
+       return doGet(searchKey);
     }
 
 
 
-    public void save(Resume r) throws CloneNotSupportedException {
-        int index = getIndex(r.getUuid());
-        if (index >= 0) {
-            throw new ExistStorageException(r.getUuid());
-
-        } else if (checkSize()) {
-            throw new StorageException("Storage overflow", r.getUuid());
-
-        } else {
-            insertElement(size(), r);
-            increaseSize();
-        }
-    }
-    @Override
-    public void delete(String uuid) throws CloneNotSupportedException {
-        int index = getIndex(uuid);
-        if (index < 0) {
+    private Object getExistedSearchKey(String uuid) {
+        Object searchKey = getSearchKey(uuid);
+        if (!isExist(searchKey)) {
             throw new NotExistStorageException(uuid);
-
-        } else {
-            fillDeletedElement(index,uuid);
-            reduceSize();
         }
+        return searchKey;
     }
 
-
-    @Override
-    final public Resume get(String uuid) throws CloneNotSupportedException {
-
-        int index = getIndex(uuid);
-        if (index < 0) {
-            throw new NotExistStorageException(uuid);
-
+    private Object getNotExistedSearchKey(String uuid) {
+        Object searchKey = getSearchKey(uuid);
+        if (isExist(searchKey)) {
+            throw new ExistStorageException(uuid);
         }
-        return getResume(index, uuid) ;
+        return searchKey;
     }
 
-    protected abstract Resume getResume(int index,String uuid);
-
-    protected abstract void updateElement(int index, Resume r) ;
-    protected abstract int getIndex(String uuid) throws CloneNotSupportedException;
-
-    protected abstract void insertElement(int index, Resume r);
-
-    protected abstract boolean checkSize();
-
-    protected abstract void fillDeletedElement(int index, String uuid);
-
-    protected abstract void increaseSize();
-
-    protected abstract void reduceSize();
 }
