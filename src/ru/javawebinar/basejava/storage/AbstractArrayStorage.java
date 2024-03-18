@@ -4,11 +4,13 @@ import ru.javawebinar.basejava.exception.StorageException;
 import ru.javawebinar.basejava.model.Resume;
 
 import java.util.Arrays;
+import java.util.Comparator;
+import java.util.List;
 
 
 public abstract class AbstractArrayStorage extends AbstractStorage {
 
-    protected static final int STORAGE_LIMIT = 5;
+    protected static final int STORAGE_LIMIT = 1000;
     protected Resume[] storage = new Resume[STORAGE_LIMIT];
     protected int size = 0;
 
@@ -49,11 +51,16 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
         storage[(Integer)index]=r;
     }
 
-    @Override
+   /* @Override
     public Resume[] getAll() {
         return Arrays.copyOfRange(storage, 0, size);
     }
 
+    */
+    @Override
+    public List<Resume> getAllSorted(Comparator comparatorResume) {
+        return Arrays.asList(storage);
+    }
     @Override
     protected boolean isExist(Object index) {
         return (Integer)index>=0;

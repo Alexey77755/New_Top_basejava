@@ -7,6 +7,9 @@ import ru.javawebinar.basejava.exception.NotExistStorageException;
 import ru.javawebinar.basejava.exception.StorageException;
 import ru.javawebinar.basejava.model.Resume;
 
+import java.util.Comparator;
+import java.util.List;
+
 public abstract class AbstractStorageTest {
     private Storage storage;
 
@@ -34,7 +37,6 @@ public abstract class AbstractStorageTest {
     @org.junit.jupiter.api.Test
     void clear() {
         storage.clear();
-        Assertions.assertEquals(0, storage.getAll().length);
         Assertions.assertEquals(0, storage.size());
         Assertions.assertThrows(NotExistStorageException.class, () -> {
             storage.get(UUID_1);
@@ -51,13 +53,13 @@ public abstract class AbstractStorageTest {
     }
 
     @org.junit.jupiter.api.Test
-    void getAll() throws CloneNotSupportedException {
-        Resume[] array = storage.getAll();
-        Assertions.assertEquals(3, storage.getAll().length);
+    void getAllSorted(Comparator comparatorResume) throws CloneNotSupportedException {
+        List<Resume> array = storage.getAllSorted( comparatorResume);
+        Assertions.assertEquals(3, storage.getAllSorted( comparatorResume).size());
         //Assertions.assertEquals(new Resume(UUID_1), array.g);
         storage = null;
         Assertions.assertThrows(NullPointerException.class, () -> {
-            storage.getAll();
+            storage.getAllSorted( comparatorResume);
         });
     }
 
