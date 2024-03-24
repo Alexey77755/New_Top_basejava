@@ -2,7 +2,6 @@ package ru.javawebinar.basejava.storage;
 
 import ru.javawebinar.basejava.model.Resume;
 
-import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -26,7 +25,7 @@ public interface Storage {
      * @return array, contains only Resumes in storage (without null)
      */
     // Resume[] getAll();
-    List<Resume> getAllSorted(Comparator<Resume> r);
+    List<Resume> getAllSorted();
      int size();
 
 }

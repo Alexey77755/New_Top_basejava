@@ -1,8 +1,7 @@
 package ru.javawebinar.basejava;
 
 import ru.javawebinar.basejava.model.Resume;
-import ru.javawebinar.basejava.storage.AbstractStorage;
-import ru.javawebinar.basejava.storage.MapFullNaneStorage;
+import ru.javawebinar.basejava.storage.MapResumeStorage;
 import ru.javawebinar.basejava.storage.Storage;
 
 import java.io.IOException;
@@ -25,11 +24,11 @@ public class MainMap {
     private static final String UUID_4 = "uuid4";
     private static final Resume RESUME_4 = new Resume(UUID_4);
     public static void main(String[] args) throws IOException, CloneNotSupportedException {
-        Storage  collection = new MapFullNaneStorage ();
+        Storage  collection = new MapResumeStorage();
         collection.save(RESUME_3);
         collection.save(RESUME_2);
         collection.save(RESUME_1);
-        collection.getAllSorted(AbstractStorage.comparatorResume);
+        collection.getAllSorted();
     }
 
 

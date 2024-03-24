@@ -1,7 +1,6 @@
 package ru.javawebinar.basejava;
 
 import ru.javawebinar.basejava.model.Resume;
-import ru.javawebinar.basejava.storage.AbstractStorage;
 import ru.javawebinar.basejava.storage.SortedArrayStorage;
 import ru.javawebinar.basejava.storage.Storage;
 
@@ -58,7 +57,7 @@ public class MainTestArrayStorage {
     static void printAll() {
         System.out.println("\nGet All");
 
-        for (Resume r : ARRAY_STORAGE.getAllSorted(AbstractStorage.comparatorResume)) {
+        for (Resume r : ARRAY_STORAGE.getAllSorted()) {
             System.out.println(r);
         }
     }
