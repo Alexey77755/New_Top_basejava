@@ -1,6 +1,8 @@
 package ru.javawebinar.basejava.model;
 
 import java.time.LocalDate;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 public class Organization {
@@ -10,8 +12,14 @@ public class Organization {
     private final String title;
     private final String description;
 
+    private static Map<String,Link> link = new HashMap<>();
     public Organization(String name, String url,LocalDate startDate, LocalDate endDate, String title, String description) {
-        this.homePage = new Link(name,url);
+        if(link.containsKey(name)){
+            this.homePage= link.get(name);
+        } else {
+            this.homePage = new Link(name, url);
+            link.put(name,homePage);
+        }
         Objects.requireNonNull(startDate,"startDate must not be null");
         Objects.requireNonNull(endDate,"endDate must not be null");
         Objects.requireNonNull(title,"title must not be null");

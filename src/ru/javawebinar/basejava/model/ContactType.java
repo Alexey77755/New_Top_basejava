@@ -8,7 +8,7 @@ public enum ContactType {
     MAIL("Почта"),
     LINKEDID("Профиль LinkedID"),
     GITHUB("Профиль GitHub"),
-    STATCKOVERFLOW("Профиль Sackoverflow"),
+    SAVEOVERFLOW("Профиль SaveOverflow"),
     HOME_PAGE("Домашняя страница");
     private final String title;
 
