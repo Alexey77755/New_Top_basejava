@@ -27,5 +27,6 @@ public class MainDate {
 
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yy/MM/dd");
         System.out.println(dtf.format(ldt));
+       // LocalTime.parse()
     }
 }
